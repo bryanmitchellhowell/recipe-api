@@ -11,14 +11,7 @@ using RecipeApi.Helpers;
 using RecipeApi.Models;
 
 namespace RecipeApi.Services
-{
-    public interface IUserService
-    {
-        AuthenticateResponse Authenticate(AuthenticateRequest model);
-        IEnumerable<User> GetAll();
-        User GetById(int id);
-    }
-
+{   
     public class UserService : IUserService
     {
         // users hardcoded for simplicity, store in a db with hashed passwords in production applications

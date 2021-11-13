@@ -19,14 +19,29 @@ namespace RecipeApi
         // add services to the DI container
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
             services.AddControllers();
+            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddScoped<IRecipeService, RecipeService>();
+            services.AddScoped<IUserService, UserService>();
+
+            services.AddCors(options => {
+                options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            });
+
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "RecipeApi", Version = "v1" });
+            //});
+
 
             // configure strongly typed settings object
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            //services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
-            // configure DI for application services
-            services.AddScoped<IUserService, UserService>();
+            //// configure DI for application services
+            //services.AddScoped<IUserService, UserService>();
+
+            //services.AddCors();
+            //services.AddControllers();
         }
 
         // configure the HTTP request pipeline
@@ -41,7 +56,7 @@ namespace RecipeApi
                 .AllowAnyHeader());
 
             // custom jwt auth middleware
-            app.UseMiddleware<JwtMiddleware>();
+            //app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(x => x.MapControllers());
         }

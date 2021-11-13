@@ -4,7 +4,12 @@
     <UserSecretsId>7ecc372b-4e16-4509-bb22-a6e99c6e9779</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.90" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.7" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="3.0.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\recipe.shared\RecipeApp.Shared.csproj" />
   </ItemGroup>
 </Project>
