@@ -9,22 +9,25 @@ using System.Text;
 using RecipeApi.Entities;
 using RecipeApi.Helpers;
 using RecipeApi.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace RecipeApi.Services
 {   
     public class UserService : IUserService
     {
+        
+
         // users hardcoded for simplicity, store in a db with hashed passwords in production applications
         private List<User> _users = new List<User>
         {
             new User { Id = 1, FirstName = "Test", LastName = "User", Username = "test", Password = "test" }
         };
-
-        private readonly AppSettings _appSettings;
-
-        public UserService(IOptions<AppSettings> appSettings)
+                
+        private readonly string secret;
+                
+        public UserService(IConfiguration configuration)
         {
-            _appSettings = appSettings.Value;
+            secret = configuration.GetSection("AppSettings")["Secret"];            
         }
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
@@ -55,8 +58,8 @@ namespace RecipeApi.Services
         private string generateJwtToken(User user)
         {
             // generate token that is valid for 7 days
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var tokenHandler = new JwtSecurityTokenHandler();            
+            var key = Encoding.ASCII.GetBytes(secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),

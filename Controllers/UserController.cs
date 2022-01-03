@@ -15,9 +15,17 @@ namespace RecipeApi.Controllers
             _userService = userService;
         }
 
+        [HttpGet("ping")]
+        public IActionResult Ping()
+        {
+            return Ok("Success");
+        }
+
+
         [HttpPost("authenticate")]
         public IActionResult Authenticate(AuthenticateRequest model)
         {
+            string here = "yes";
             var response = _userService.Authenticate(model);
 
             if (response == null)
