@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -7,12 +6,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using RecipeApi.Entities;
-using RecipeApi.Helpers;
 using RecipeApi.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace RecipeApi.Services
-{   
+{
     public class UserService : IUserService
     {
         
