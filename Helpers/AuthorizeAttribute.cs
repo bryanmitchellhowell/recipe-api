@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using RecipeApp.Shared.Models;
 using System;
-using RecipeApi.Entities;
+
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class AuthorizeAttribute : Attribute, IAuthorizationFilter
@@ -15,5 +16,11 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
             // not logged in
             context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
         }
+        if (user.ErrorMessage == "Password Does Not Match")
+        {
+            // not logged in
+            context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
+        }
+
     }
 }

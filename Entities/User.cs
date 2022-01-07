@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace RecipeApi.Entities
 {
-    public class User
+    public class UserOld
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

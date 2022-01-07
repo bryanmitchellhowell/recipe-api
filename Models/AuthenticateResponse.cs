@@ -1,4 +1,5 @@
 using RecipeApi.Entities;
+using RecipeApp.Shared.Models;
 
 namespace RecipeApi.Models
 {
@@ -9,7 +10,7 @@ namespace RecipeApi.Models
         public string LastName { get; set; }
         public string Username { get; set; }
         public string Token { get; set; }
-
+        public User User { get; set; }
 
         public AuthenticateResponse(User user, string token)
         {
@@ -18,6 +19,7 @@ namespace RecipeApi.Models
             LastName = user.LastName;
             Username = user.Username;
             Token = token;
+            User = user;
         }
     }
 }
