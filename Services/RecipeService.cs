@@ -3,9 +3,7 @@ using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Threading.Tasks;
 using RecipeApp.Shared.Models;
-using RecipeApi.Helpers;
 using Microsoft.Extensions.Configuration;
 
 namespace RecipeApi.Services
@@ -147,7 +145,6 @@ namespace RecipeApi.Services
                     if (conn.State == ConnectionState.Open)
                         conn.Close();
                 }
-
             }
             return recipes;
         }
@@ -177,7 +174,7 @@ namespace RecipeApi.Services
                 }
             }
             return recipe;
-        }
+        }                
     }
 }
 

@@ -13,4 +13,7 @@
     <ProjectReference Include="..\common.shared\Common.Shared.csproj" />
     <ProjectReference Include="..\recipe.shared\RecipeApp.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entities\" />
+  </ItemGroup>
 </Project>

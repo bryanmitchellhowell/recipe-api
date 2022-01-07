@@ -5,7 +5,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using RecipeApi.Entities;
 using RecipeApi.Helpers;
 using RecipeApi.Models;
 using Microsoft.Extensions.Configuration;
@@ -92,13 +91,7 @@ namespace RecipeApi.Services
 
             return _users.FirstOrDefault(x => x.Id == id);
         }
-
-        public string GetPwd(string pwd)
-        {
-            Encrypter encrypter = new Encrypter();
-            return encrypter.EncryptWord(pwd);
-        }
-
+        
         // helper methods
 
         private string generateJwtToken(User user)
