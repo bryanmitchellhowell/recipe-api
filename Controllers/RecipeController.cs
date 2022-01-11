@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Common.Shared.Utilities;
+using Microsoft.AspNetCore.Mvc;
 using RecipeApi.Services;
 using RecipeApp.Shared.Models;
+using System.Collections.Generic;
 
 namespace RecipeApi.Controllers
 {
@@ -23,21 +25,26 @@ namespace RecipeApi.Controllers
 
         [HttpGet("all")]
         public IActionResult GetAllRecipes()
-        {
-            return Ok(_recipeService.GetAllRecipes());
+        {            
+            return Ok(_recipeService.GetRecipes(null, ""));
         }
 
         [HttpGet("{id}")]
         public IActionResult GetSingleRecipe(int id)
         {
             Recipe recipeItem = _recipeService.SingleRecipe(id);
-            return Ok(recipeItem);
+            return Ok(recipeItem);                        
+        }
 
-            //return Ok(_recipeService.SingleRecipe(id));
+        [HttpGet("recipes/{id?}/{recipeName}")]
+        public IActionResult GetRecipes(string id, string recipeName)
+        {
+            IEnumerable<Recipe> recipeItems = _recipeService.GetRecipes(id.ToIntNull0(), recipeName.APIemptyIfNull());
+            return Ok(recipeItems);                        
         }
 
         [HttpGet("fake")]
-        public IActionResult GetFakeUser()
+        public IActionResult GetFakeRecipe()
         {
             Recipe myRecipe = new Recipe {
                 RecipeId = 1,

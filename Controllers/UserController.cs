@@ -21,13 +21,7 @@ namespace RecipeApi.Controllers
         {
             return Ok("Success");
         }
-
-        [HttpGet("grabPwd/{pwd}")]
-        public IActionResult GrabPwd(string pwd)
-        {
-            return Ok(_userService.GetPwd(pwd));            
-        }
-
+        
         [HttpPost("authenticate")]
         public IActionResult Authenticate(AuthenticateRequest model)
         {            

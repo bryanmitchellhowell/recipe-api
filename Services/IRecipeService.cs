@@ -7,8 +7,7 @@ using RecipeApp.Shared.Models;
 namespace RecipeApi.Services
 {
     public interface IRecipeService
-    {
-        IEnumerable<Recipe> GetAllRecipes();
+    {        
         IEnumerable<Recipe> GetRecipes(int? RecipeId, string RecipeName);
         bool CreateRecipe(Recipe recipe);
         bool EditRecipe(int id, Recipe recipe);        

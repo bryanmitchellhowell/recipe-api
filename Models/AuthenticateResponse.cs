@@ -1,4 +1,3 @@
-using RecipeApi.Entities;
 using RecipeApp.Shared.Models;
 
 namespace RecipeApi.Models

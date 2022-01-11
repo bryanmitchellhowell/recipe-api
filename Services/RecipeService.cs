@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using RecipeApp.Shared.Models;
 using Microsoft.Extensions.Configuration;
+using Common.Data;
 
 namespace RecipeApi.Services
 {
@@ -44,8 +45,7 @@ namespace RecipeApi.Services
             return true;
         }
         public bool DeleteRecipe(int id)
-        {
-            //using (var conn = new SqlConnection(_configuration.Value))
+        {            
             using (var conn = new SqlConnection(connectionString))
             {
                 const string query = @"delete from tblRecipe where RecipeId=@Id";
@@ -68,8 +68,7 @@ namespace RecipeApi.Services
             return true;
         }
         public bool EditRecipe(int id, Recipe recipe)
-        {
-            //using (var conn = new SqlConnection(_configuration.Value))
+        {            
             using (var conn = new SqlConnection(connectionString))
             {
                 const string query = @"update tblRecipe set RecipeName = @RecipeName, Description = @RecipeDescription where RecipeId=@Id";
@@ -91,71 +90,27 @@ namespace RecipeApi.Services
             }
             return true;
         }
-        public IEnumerable<Recipe> GetAllRecipes()
-        {
-            IEnumerable<Recipe> recipes;
-            //using (var conn = new SqlConnection(_configuration.Value))
-            using (var conn = new SqlConnection(connectionString))
-            {
-                const string query = @"select RecipeId, RecipeName, RecipeDescription from tblRecipe";
-
-                if (conn.State == ConnectionState.Closed)
-                    conn.Open();
-                try
-                {
-                    recipes = conn.Query<Recipe>(query);
-
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    if (conn.State == ConnectionState.Open)
-                        conn.Close();
-                }
-
-            }
-            return recipes;
-        }
+        
         public IEnumerable<Recipe> GetRecipes(int? RecipeId, string RecipeName)
         {
-            IEnumerable<Recipe> recipes;
-            //using (var conn = new SqlConnection(_configuration.Value))
-            using (var conn = new SqlConnection(connectionString))
+            IEnumerable<Recipe> recipes = null;
+            var param = new
             {
-                const string cmdQuery = @"upsRecipe";
-
-                if (conn.State == ConnectionState.Closed)
-                    conn.Open();
-                try
-                {
-                    recipes = conn.Query<Recipe>(cmdQuery,
-                                    new { ii_RecipeId = RecipeId, 
-                                        ivc_RecipeName = RecipeName },
-                                    commandType: CommandType.StoredProcedure);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    if (conn.State == ConnectionState.Open)
-                        conn.Close();
-                }
-            }
+                ii_RecipeId = RecipeId,
+                ivc_RecipeName = RecipeName
+            };
+            CommonDAL commonDAL = new CommonDAL(connectionString);
+            recipes = commonDAL.GetResultListBySP<Recipe>("upsRecipe", param, recipes);
             return recipes;
         }
+
         public Recipe SingleRecipe(int id)
         {
             Recipe recipe = new Recipe();
-
-            //using (var conn = new SqlConnection(_configuration.Value))
+                        
             using (var conn = new SqlConnection(connectionString))
             {
-                const string query = @"select * from tblRecipe where RecipeId =@Id";
+                const string query = @"select * from tblRecipe where RecipeId = @Id";
 
                 if (conn.State == ConnectionState.Closed)
                     conn.Open();
@@ -174,7 +129,7 @@ namespace RecipeApi.Services
                 }
             }
             return recipe;
-        }                
+        }                        
     }
 }
 
