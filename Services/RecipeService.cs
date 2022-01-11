@@ -6,6 +6,7 @@ using System.Data;
 using RecipeApp.Shared.Models;
 using Microsoft.Extensions.Configuration;
 using Common.Data;
+using System.Linq;
 
 namespace RecipeApi.Services
 {
@@ -91,32 +92,45 @@ namespace RecipeApi.Services
             return true;
         }
         
-        public IEnumerable<Recipe> GetRecipes(int? RecipeId, string RecipeName)
+        public IEnumerable<Recipe> GetRecipes(int? recipeId, string recipeName)
         {
             IEnumerable<Recipe> recipes = null;
             var param = new
             {
-                ii_RecipeId = RecipeId,
-                ivc_RecipeName = RecipeName
+                ii_RecipeId = recipeId,
+                ivc_RecipeName = recipeName
             };
             CommonDAL commonDAL = new CommonDAL(connectionString);
             recipes = commonDAL.GetResultListBySP<Recipe>("upsRecipe", param, recipes);
             return recipes;
         }
 
-        public Recipe SingleRecipe(int id)
+        public Recipe SingleRecipe(int recipeId)
         {
             Recipe recipe = new Recipe();
                         
             using (var conn = new SqlConnection(connectionString))
             {
-                const string query = @"select * from tblRecipe where RecipeId = @Id";
+                const string query = @"upsRecipeSingle";
+                var param = new
+                {
+                    ii_RecipeId = recipeId
+                };
 
                 if (conn.State == ConnectionState.Closed)
                     conn.Open();
                 try
                 {
-                    recipe = conn.QueryFirstOrDefault<Recipe>(query, new { id }, commandType: CommandType.Text);
+                    using (var mult = conn.QueryMultiple(query, param, commandType: CommandType.StoredProcedure))
+                    {
+                        recipe = mult.Read<Recipe>().First();
+                        var ingredients = mult.Read<RecipeIngredient>();
+                        var instructions = mult.Read<RecipeInstruction>();
+                        var categories = mult.Read<RecipeCategory>();
+                        recipe.RecipeIngredients = ingredients.ToList();
+                        recipe.RecipeInstructions = instructions.ToList();
+                        recipe.RecipeCategories = categories.ToList();
+                    }                    
                 }
                 catch (Exception ex)
                 {
