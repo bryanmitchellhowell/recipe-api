@@ -1,18 +1,18 @@
+using Common.Shared.Utilities;
+using Dapper;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using RecipeApi.Helpers;
+using RecipeApi.Models;
+using RecipeApp.Shared.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using RecipeApi.Helpers;
-using RecipeApi.Models;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Data.SqlClient;
-using System.Data;
-using Dapper;
-using RecipeApp.Shared.Models;
-using Common.Shared.Utilities;
 
 namespace RecipeApi.Services
 {

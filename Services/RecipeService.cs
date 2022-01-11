@@ -1,11 +1,11 @@
-﻿using Dapper;
+﻿using Common.Data;
+using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using RecipeApp.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using RecipeApp.Shared.Models;
-using Microsoft.Extensions.Configuration;
-using Common.Data;
 using System.Linq;
 
 namespace RecipeApi.Services

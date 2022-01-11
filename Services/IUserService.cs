@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using RecipeApi.Models;
+﻿using RecipeApi.Models;
 using RecipeApp.Shared.Models;
+using System.Collections.Generic;
 
 namespace RecipeApi.Services
 {
